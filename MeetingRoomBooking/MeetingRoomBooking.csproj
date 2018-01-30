@@ -128,17 +128,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201801292009145_InitialCreate.cs" />
-    <Compile Include="Migrations\201801292009145_InitialCreate.Designer.cs">
-      <DependentUpon>201801292009145_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201801301328306_AddForeignKeyForRooms.cs" />
+    <Compile Include="Migrations\201801301328306_AddForeignKeyForRooms.Designer.cs">
+      <DependentUpon>201801301328306_AddForeignKeyForRooms.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201801300827285_ChangeDatimeToTimeSpanForStartAndEndTime.cs" />
-    <Compile Include="Migrations\201801300827285_ChangeDatimeToTimeSpanForStartAndEndTime.Designer.cs">
-      <DependentUpon>201801300827285_ChangeDatimeToTimeSpanForStartAndEndTime.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801300917125_ChangeDatimeToTimeSpanForStartAndEndTime1.cs" />
-    <Compile Include="Migrations\201801300917125_ChangeDatimeToTimeSpanForStartAndEndTime1.Designer.cs">
-      <DependentUpon>201801300917125_ChangeDatimeToTimeSpanForStartAndEndTime1.cs</DependentUpon>
+    <Compile Include="Migrations\201801301451182_AddForeignKeyForRooms1.cs" />
+    <Compile Include="Migrations\201801301451182_AddForeignKeyForRooms1.Designer.cs">
+      <DependentUpon>201801301451182_AddForeignKeyForRooms1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Booking.cs" />
@@ -156,6 +152,7 @@
     <Content Include="Views\Bookings\Edit.cshtml" />
     <Content Include="Views\Bookings\Index.cshtml" />
     <Content Include="Views\Home\Create.cshtml" />
+    <Content Include="Views\Home\Agenda.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -167,14 +164,11 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201801292009145_InitialCreate.resx">
-      <DependentUpon>201801292009145_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201801301328306_AddForeignKeyForRooms.resx">
+      <DependentUpon>201801301328306_AddForeignKeyForRooms.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801300827285_ChangeDatimeToTimeSpanForStartAndEndTime.resx">
-      <DependentUpon>201801300827285_ChangeDatimeToTimeSpanForStartAndEndTime.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801300917125_ChangeDatimeToTimeSpanForStartAndEndTime1.resx">
-      <DependentUpon>201801300917125_ChangeDatimeToTimeSpanForStartAndEndTime1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201801301451182_AddForeignKeyForRooms1.resx">
+      <DependentUpon>201801301451182_AddForeignKeyForRooms1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

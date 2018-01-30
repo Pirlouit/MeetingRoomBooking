@@ -1,0 +1,66 @@
+﻿@model IEnumerable<MeetingRoomBooking.Models.Booking>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Agenda</title>
+    <link href="~/StyleSheets/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div>
+        <table class="table">
+
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.BookingDay)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Room.RoomName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BookingStart)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BookingEnd)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OwnerName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BookingName)
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookingDay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Room.RoomName)
+                </td>
+                <td>
+                    @item.BookingStart.ToString(@"hh\:mm")
+                </td>
+                <td>
+                    @item.BookingEnd.ToString(@"hh\:mm")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OwnerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookingName)
+                </td>
+            </tr>
+            }
+
+        </table>
+    </div>
+</body>
+</html>

@@ -7,3 +7,15 @@
 input, select {
     width: 180px;
 }
+
+table{
+    border: 1px solid black;
+}
+th, td {
+    border: 1px solid black;
+    text-align: center;
+    width: 150px;
+    overflow: auto;
+    padding-left: 5px;
+    padding-right: 5px;
+}

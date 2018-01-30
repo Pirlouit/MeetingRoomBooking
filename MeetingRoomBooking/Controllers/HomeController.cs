@@ -17,8 +17,23 @@ namespace MeetingRoomBooking.Controllers
             return View();
         }
 
+        public ActionResult Agenda()
+        {
+
+            return View(db.Bookings.ToList().OrderBy(b => b.BookingStart).OrderBy(b => b.RoomId).OrderBy(b=>b.BookingDay));
+        }
+
+        [HttpGet]
         public ActionResult Create()
         {
+            return View(db.Rooms.ToList());
+        }
+
+        [HttpPost]
+        public ActionResult Create(Booking b)
+        {
+            db.Bookings.Add(b);
+            db.SaveChanges();
             return View(db.Rooms.ToList());
         }
 
@@ -26,18 +41,18 @@ namespace MeetingRoomBooking.Controllers
         {
             DateTime day = DateTime.Parse(dayString);
             TimeSpan startHour = TimeSpan.Parse(startHourString);
-            if (dayString == null||startHour==null)
+            if (dayString == null || startHour == null)
                 return null;
 
-            List<string> availableHourList = null;
+            List<string> availableHourList = new List<string>();
 
-            List<Booking> BookingRoomDayList = db.Bookings.Where(b => b.BookingDay == day && b.Room.ID == roomID).ToList();
-            for (TimeSpan ts = startHour; ts < new TimeSpan(17, 0, 0); ts.Add(new TimeSpan(0, 30, 0)))
+            List<Booking> BookingRoomDayList = db.Bookings.Where(b => b.BookingDay == day && b.Room.RoomID == roomID).ToList();
+            for (TimeSpan ts = startHour+= new TimeSpan(0, 30, 0); ts <= new TimeSpan(17, 0, 0); ts+=(new TimeSpan(0, 30, 0)))
             {
-                if (BookingRoomDayList.Any(b => isTimeBetween(ts, b.BookingStart, b.BookingEnd)))
+                if(BookingRoomDayList.Any(b => b.BookingStart < ts && b.BookingEnd >= ts))
                     return Json(availableHourList);
                 else
-                    availableHourList.Add(ts.ToString("HH:mm"));
+                    availableHourList.Add(ts.ToString(@"hh\:mm"));
             }
 
             return Json(availableHourList);
@@ -45,27 +60,26 @@ namespace MeetingRoomBooking.Controllers
 
         public ActionResult GetAvailableStartHourFromDay(string dayString, int roomID)
         {
-            if (dayString == null)
-                return null;
-
             DateTime day = DateTime.Parse(dayString);
+            if (day == null)
+                return null;
 
             List<string> availableHourList = new List<string>();
 
-            List<Booking> BookingRoomDayList = db.Bookings.Where(b => b.BookingDay == day && b.Room.ID == roomID).ToList();
-            for (TimeSpan ts = new TimeSpan(09, 0, 0); ts < new TimeSpan(17, 0, 0); ts+=new TimeSpan(0, 30, 0))
+            List<Booking> BookingRoomDayList = db.Bookings.Where(b => b.BookingDay == day && b.Room.RoomID == roomID).ToList();
+            for (TimeSpan ts = new TimeSpan(9, 0, 0); ts < new TimeSpan(17, 0, 0); ts+=new TimeSpan(0, 30, 0))
             {
-                if (!BookingRoomDayList.Any(b => isTimeBetween(ts, b.BookingStart, b.BookingEnd)))
+                if (!BookingRoomDayList.Any(b => b.BookingStart<=ts && b.BookingEnd > ts))
                     availableHourList.Add(ts.ToString(@"hh\:mm"));
-                Debug.WriteLine("Current timespan = " + ts.ToString());
             }
-            Debug.WriteLine("Out of loop");
-            return Json(availableHourList,JsonRequestBehavior.AllowGet);
+
+            return Json(availableHourList);
         }
 
+        [Obsolete]
         public bool isTimeBetween(TimeSpan time, TimeSpan start, TimeSpan end)
         {
-            return start <= time && time <= end;
+            return start < time && time < end;
         }
     }
 }

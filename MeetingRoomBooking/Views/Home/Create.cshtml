@@ -11,6 +11,25 @@
     <title>Create</title>
     <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
     <link href="~/StyleSheets/style.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"></link>
+    <script>
+        function PrepareDate(date) {
+            if ($.datepicker.noWeekends(date)[0]) {
+                return [true];
+            } else {
+                return $.datepicker.noWeekends(date);
+            }
+        }
+        $(function () {
+            $("#BookingDay").datepicker({
+                beforeShowDay: PrepareDate,
+                //  dateFormat: 'dd/mm/yy',
+                minDate: new Date()
+            });
+        });
+    </script>
 </head>
 <body>
     <h2>Réservation d'une salle de réunion</h2>
@@ -20,14 +39,14 @@
         <label>Nom de la réunion</label>
         <input type="text" name="BookingName"><br />
         <label>Salle de réunion:</label>
-        <select id="Room">
+        <select id="Room"name="Room">
         @foreach (var room in Model)
         {
-            <option value="@room.ID">@room.RoomName</option>
+            <option value="@room.RoomID">@room.RoomName</option>
         }
         </select><br/>
         <label>Jour de la réunion:</label>
-        <input id="BookingDay" type="date" name="BookingDay"><br />
+        <input id="BookingDay" type="text" name="BookingDay"><br />
         <label>Heure de début:</label>
         <select id="BookingStart" name=BookingStart disabled>
             <option>Selectionnez une date</option>
@@ -43,7 +62,10 @@
 
 	        $("#BookingDay").change(function(){
 	        	$("#BookingStart option").remove();
-	        	$("#BookingStart").append($(document.createElement('option')).html("Heure de début"));
+                $("#BookingStart").append($(document.createElement('option')).html("Heure de début"));
+                $("#BookingEnd option").remove();
+                $("#BookingEnd").append($(document.createElement('option')).html("Selectionnez une heure de début"));
+                $("#BookingEnd").prop('disabled', true);
 
                 console.log("RoomID = " + $("#Room :selected").val())
 
@@ -54,8 +76,7 @@
                         dayString: $("#BookingDay").val(),
                         roomID: $("#Room :selected").val()
                     },
-                    success: function (data) { // code_html contient le HTML renvoyé
-                        console.log($(data));
+                    success: function (data) {
                         for (var i = 0; i < data.length; i++)
                         {
                             var option = document.createElement('option');
@@ -76,15 +97,16 @@
                     type: 'POST',
                     data: {
                         dayString: $("#BookingDay").val(),
+                        startHourString: $("#BookingStart").val(),
                         roomID: $("#Room :selected").val()
                     },
-                    success: function (data) { // code_html contient le HTML renvoyé
+                    success: function (data) {
                         console.log($(data));
                         for (var i = 0; i < data.length; i++) {
                             var option = document.createElement('option');
-                            $("#BookingStart").append($(option).attr('value', data[i]).html(data[i]));
+                            $("#BookingEnd").append($(option).attr('value', data[i]).html(data[i]));
                         }
-                        $("#BookingStart").prop('disabled', false);
+                        $("#BookingEnd").prop('disabled', false);
                     }
                 });
 	        });
@@ -93,12 +115,19 @@
 	        	e.preventDefault();
 	        	var  booking = {};
 	        	booking.BookingName = $("input[name=BookingName]").val();
-	        	booking.OwnerName = $("input[name=OwnerName]").val();
+                booking.OwnerName = $("input[name=OwnerName]").val();
+                booking.RoomId = $("select[name=Room]").val();
 	        	booking.BookingDay = $("input[name=BookingDay]").val();
 	        	booking.BookingStart = $("select[name=BookingStart]").val();
 	        	booking.BookingEnd = $("select[name=BookingEnd]").val();
 	        	console.log(booking);
-	        	//$.ajax()
+                $.ajax({
+                    url: '/Home/Create',
+                    type: 'POST',
+                    data: {
+                        b: booking
+                    }
+                });
 	        });
 
 		})

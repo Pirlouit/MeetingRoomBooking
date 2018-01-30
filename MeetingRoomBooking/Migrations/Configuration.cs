@@ -10,7 +10,6 @@ namespace MeetingRoomBooking.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "MyDbContext";
         }
 
         protected override void Seed(MyDbContext context)

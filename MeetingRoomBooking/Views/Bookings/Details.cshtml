@@ -1,0 +1,66 @@
+﻿@model MeetingRoomBooking.Models.Booking
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Booking</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.BookingName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.BookingName)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.OwnerName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.OwnerName)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.BookingDay)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.BookingDay)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.BookingStart)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.BookingStart)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.BookingEnd)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.BookingEnd)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

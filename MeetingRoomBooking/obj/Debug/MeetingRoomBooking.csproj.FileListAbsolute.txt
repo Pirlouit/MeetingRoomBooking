@@ -28,10 +28,10 @@ C:\Users\User\source\repos\MeetingRoomBooking\MeetingRoomBooking\bin\Newtonsoft.
 C:\Users\User\source\repos\MeetingRoomBooking\MeetingRoomBooking\bin\System.Net.Http.Formatting.xml
 C:\Users\User\source\repos\MeetingRoomBooking\MeetingRoomBooking\bin\System.Web.Http.xml
 C:\Users\User\source\repos\MeetingRoomBooking\MeetingRoomBooking\bin\System.Web.Http.WebHost.xml
-C:\Users\User\source\repos\MeetingRoomBooking\MeetingRoomBooking\obj\Debug\MeetingRoomBooking.csprojResolveAssemblyReference.cache
 C:\Users\User\source\repos\MeetingRoomBooking\MeetingRoomBooking\obj\Debug\MeetingRoomBooking.csproj.CoreCompileInputs.cache
 C:\Users\User\source\repos\MeetingRoomBooking\MeetingRoomBooking\obj\Debug\MeetingRoomBooking.dll
 C:\Users\User\source\repos\MeetingRoomBooking\MeetingRoomBooking\obj\Debug\MeetingRoomBooking.pdb
 C:\Users\User\source\repos\MeetingRoomBooking\MeetingRoomBooking\obj\Debug\MeetingRoomBooking.Migrations.InitialCreate.resources
 C:\Users\User\source\repos\MeetingRoomBooking\MeetingRoomBooking\obj\Debug\MeetingRoomBooking.csproj.GenerateResource.Cache
 C:\Users\User\source\repos\MeetingRoomBooking\MeetingRoomBooking\obj\Debug\MeetingRoomBooking.Migrations.ChangeDatimeToTimeSpanForStartAndEndTime.resources
+C:\Users\User\source\repos\MeetingRoomBooking\MeetingRoomBooking\obj\Debug\MeetingRoomBooking.Migrations.ChangeDatimeToTimeSpanForStartAndEndTime1.resources

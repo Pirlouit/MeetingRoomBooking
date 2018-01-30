@@ -1,0 +1,9 @@
+﻿label {
+    display: inline-block;
+    min-width: 250px;
+    margin: 5px;
+}
+
+input, select {
+    width: 180px;
+}

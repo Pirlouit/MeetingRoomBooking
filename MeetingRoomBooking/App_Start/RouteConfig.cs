@@ -16,7 +16,7 @@ namespace MeetingRoomBooking
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Bookings", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = "Create", id = UrlParameter.Optional }
             );
         }
     }

@@ -1,0 +1,107 @@
+﻿@model List<MeetingRoomBooking.Models.Room>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link href="~/StyleSheets/style.css" rel="stylesheet" />
+</head>
+<body>
+    <h2>Réservation d'une salle de réunion</h2>
+    <form id="createBooking">
+        <label>Nom d'utilisateur ou entreprise:</label>
+        <input type="text" name="OwnerName"><br />
+        <label>Nom de la réunion</label>
+        <input type="text" name="BookingName"><br />
+        <label>Salle de réunion:</label>
+        <select id="Room">
+        @foreach (var room in Model)
+        {
+            <option value="@room.ID">@room.RoomName</option>
+        }
+        </select><br/>
+        <label>Jour de la réunion:</label>
+        <input id="BookingDay" type="date" name="BookingDay"><br />
+        <label>Heure de début:</label>
+        <select id="BookingStart" name=BookingStart disabled>
+            <option>Selectionnez une date</option>
+        </select><br />
+        <label>Heure de fin:</label>
+        <select id="BookingEnd" name=BookingEnd disabled>
+            <option>Selectionnez une heure de début</option>
+        </select><br /><br />
+        <input id="bookButton" type="submit" value="Réserver">
+    </form>
+    <script type="text/javascript">
+		$(function(){
+
+	        $("#BookingDay").change(function(){
+	        	$("#BookingStart option").remove();
+	        	$("#BookingStart").append($(document.createElement('option')).html("Heure de début"));
+
+                console.log("RoomID = " + $("#Room :selected").val())
+
+                $.ajax({
+                    url: '/Home/GetAvailableStartHourFromDay',
+                    type: 'POST',
+                    data: {
+                        dayString: $("#BookingDay").val(),
+                        roomID: $("#Room :selected").val()
+                    },
+                    success: function (data) { // code_html contient le HTML renvoyé
+                        console.log($(data));
+                        for (var i = 0; i < data.length; i++)
+                        {
+                            var option = document.createElement('option');
+                            $("#BookingStart").append($(option).attr('value', data[i]).html(data[i]));
+                        }
+                        $("#BookingStart").prop('disabled', false);
+                    }
+                });
+		        
+	        });
+
+	        $("#BookingStart").change(function(){
+	        	$("#BookingEnd option").remove();
+	        	$("#BookingEnd").append($(document.createElement('option')).html("Heure de fin"));
+
+                $.ajax({
+                    url: '/Home/GetAvailableEndHourFromDay',
+                    type: 'POST',
+                    data: {
+                        dayString: $("#BookingDay").val(),
+                        roomID: $("#Room :selected").val()
+                    },
+                    success: function (data) { // code_html contient le HTML renvoyé
+                        console.log($(data));
+                        for (var i = 0; i < data.length; i++) {
+                            var option = document.createElement('option');
+                            $("#BookingStart").append($(option).attr('value', data[i]).html(data[i]));
+                        }
+                        $("#BookingStart").prop('disabled', false);
+                    }
+                });
+	        });
+
+	        $("#createBooking").submit(function(e){
+	        	e.preventDefault();
+	        	var  booking = {};
+	        	booking.BookingName = $("input[name=BookingName]").val();
+	        	booking.OwnerName = $("input[name=OwnerName]").val();
+	        	booking.BookingDay = $("input[name=BookingDay]").val();
+	        	booking.BookingStart = $("select[name=BookingStart]").val();
+	        	booking.BookingEnd = $("select[name=BookingEnd]").val();
+	        	console.log(booking);
+	        	//$.ajax()
+	        });
+
+		})
+    </script>
+</body>
+</html>

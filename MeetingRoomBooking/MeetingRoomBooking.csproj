@@ -117,12 +117,14 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="StyleSheets\style.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BookingsController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -133,6 +135,10 @@
     <Compile Include="Migrations\201801300827285_ChangeDatimeToTimeSpanForStartAndEndTime.cs" />
     <Compile Include="Migrations\201801300827285_ChangeDatimeToTimeSpanForStartAndEndTime.Designer.cs">
       <DependentUpon>201801300827285_ChangeDatimeToTimeSpanForStartAndEndTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801300917125_ChangeDatimeToTimeSpanForStartAndEndTime1.cs" />
+    <Compile Include="Migrations\201801300917125_ChangeDatimeToTimeSpanForStartAndEndTime1.Designer.cs">
+      <DependentUpon>201801300917125_ChangeDatimeToTimeSpanForStartAndEndTime1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Booking.cs" />
@@ -149,6 +155,7 @@
     <Content Include="Views\Bookings\Details.cshtml" />
     <Content Include="Views\Bookings\Edit.cshtml" />
     <Content Include="Views\Bookings\Index.cshtml" />
+    <Content Include="Views\Home\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -165,6 +172,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801300827285_ChangeDatimeToTimeSpanForStartAndEndTime.resx">
       <DependentUpon>201801300827285_ChangeDatimeToTimeSpanForStartAndEndTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801300917125_ChangeDatimeToTimeSpanForStartAndEndTime1.resx">
+      <DependentUpon>201801300917125_ChangeDatimeToTimeSpanForStartAndEndTime1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

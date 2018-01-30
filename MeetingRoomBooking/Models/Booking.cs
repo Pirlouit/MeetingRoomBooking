@@ -18,12 +18,8 @@ namespace MeetingRoomBooking.Models
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime BookingDay { get; set; }
 
-        [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:HH-mm}", ApplyFormatInEditMode = true)]
         public TimeSpan BookingStart { get; set; }
-
-        [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:HH-mm}", ApplyFormatInEditMode = true)]
+        
         public TimeSpan BookingEnd { get; set; }
 
         public Room Room { get; set; }

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using MeetingRoomBooking.Models;
@@ -14,11 +16,29 @@ namespace MeetingRoomBooking.Controllers
     {
         private MyDbContext db = new MyDbContext();
 
+        static BookingsController()
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");            
+        }
+        void ClearDB()
+        {
+            db.Bookings.RemoveRange(db.Bookings);
+            db.SaveChanges();
+        }
+        void AddRooms()
+        {
+            db.Rooms.Add(new Room { RoomName = "Board Room" });
+            db.Rooms.Add(new Room { RoomName = "Person Vue" });
+            db.Rooms.Add(new Room { RoomName = "Conf. Room" });
+            db.Rooms.Add(new Room { RoomName = "SoftLab" });
+            db.Rooms.Add(new Room { RoomName = "MakersLab" });
+            db.SaveChanges();
+        }
         // GET: Bookings
         public ActionResult Index()
-        {
-            ViewBag.RoomList = db.Rooms.ToList();
-            return View(db.Bookings.ToList());  
+        {            
+            ViewBag.RoomList = db.Rooms.ToList();         
+            return View(db.Bookings.ToList());
         }
 
         // GET: Bookings/Details/5
@@ -116,19 +136,37 @@ namespace MeetingRoomBooking.Controllers
             return RedirectToAction("Index");
         }
 
-        public List<string> GetAvailableStartHourFromDay(DateTime day, Room room)
+        public List<string> GetAvailableStartHourFromDay(DateTime day,TimeSpan startHour, int roomID)
         {
-            List<Booking> BookingRoomDayList = db.Bookings.Where(b => b.BookingDay == day && b.Room == room).ToList();
-            for (TimeSpan ts = new TimeSpan(09, 0, 0); ts < new TimeSpan(17, 0, 0); ts.Add(new TimeSpan(0, 30, 0)))
+            List<string> availableHourList = null;
+
+            List<Booking> BookingRoomDayList = db.Bookings.Where(b => b.BookingDay == day && b.Room.ID == roomID).ToList();
+            for (TimeSpan ts = startHour; ts < new TimeSpan(17, 0, 0); ts.Add(new TimeSpan(0, 30, 0)))
             {
+                if (BookingRoomDayList.Any(b => isTimeBetween(ts, b.BookingStart, b.BookingEnd)))
+                    return availableHourList;
+                else
+                    availableHourList.Add(ts.ToString("HH:mm"));
+            }            
 
-            }
-            
-
-            return null;
+            return availableHourList;
         }
 
-        public bool isTimeBetween(DateTime time, DateTime start, DateTime end)
+        public List<string> GetAvailableEndHourFromDay(DateTime day, int roomID)
+        {
+            List<string> availableHourList = null;
+
+            List<Booking> BookingRoomDayList = db.Bookings.Where(b => b.BookingDay == day && b.Room.ID == roomID).ToList();
+            for (TimeSpan ts = new TimeSpan(09, 0, 0); ts < new TimeSpan(17, 0, 0); ts.Add(new TimeSpan(0, 30, 0)))
+            {
+                if (!BookingRoomDayList.Any(b => isTimeBetween(ts, b.BookingStart, b.BookingEnd)))
+                    availableHourList.Add(ts.ToString("HH:mm"));
+            }
+
+            return availableHourList;
+        }
+
+        public bool isTimeBetween(TimeSpan time, TimeSpan start, TimeSpan end)
         {
             return start <= time && time <= end;
         }

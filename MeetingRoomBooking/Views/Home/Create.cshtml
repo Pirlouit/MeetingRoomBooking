@@ -46,7 +46,7 @@
         }
         </select><br/>
         <label>Jour de la réunion:</label>
-        <input id="BookingDay" type="text" name="BookingDay"><br />
+        <input id="BookingDay" type="text" name="BookingDay" readonly><br />
         <label>Heure de début:</label>
         <select id="BookingStart" name=BookingStart disabled>
             <option>Selectionnez une date</option>
@@ -58,69 +58,32 @@
         <input id="bookButton" type="submit" value="Réserver">
     </form>
     <script type="text/javascript">
-		$(function(){
+        $(function () {
 
-	        $("#BookingDay").change(function(){
-	        	$("#BookingStart option").remove();
-                $("#BookingStart").append($(document.createElement('option')).html("Heure de début"));
-                $("#BookingEnd option").remove();
-                $("#BookingEnd").append($(document.createElement('option')).html("Selectionnez une heure de début"));
-                $("#BookingEnd").prop('disabled', true);
 
-                console.log("RoomID = " + $("#Room :selected").val())
+            $("#Room").change(function () {
+                if ($("input[name=BookingDay]").val() !== "")
+                    SetAvailableStartHourFromDay();
+            });
 
-                $.ajax({
-                    url: '/Home/GetAvailableStartHourFromDay',
-                    type: 'POST',
-                    data: {
-                        dayString: $("#BookingDay").val(),
-                        roomID: $("#Room :selected").val()
-                    },
-                    success: function (data) {
-                        for (var i = 0; i < data.length; i++)
-                        {
-                            var option = document.createElement('option');
-                            $("#BookingStart").append($(option).attr('value', data[i]).html(data[i]));
-                        }
-                        $("#BookingStart").prop('disabled', false);
-                    }
-                });
-		        
-	        });
+            $("#BookingDay").change(function () {
+                SetAvailableStartHourFromDay();
+            });
 
-	        $("#BookingStart").change(function(){
-	        	$("#BookingEnd option").remove();
-	        	$("#BookingEnd").append($(document.createElement('option')).html("Heure de fin"));
+            $("#BookingStart").change(function () {
+                SetAvailableEndHourFromDay();
+            });
 
-                $.ajax({
-                    url: '/Home/GetAvailableEndHourFromDay',
-                    type: 'POST',
-                    data: {
-                        dayString: $("#BookingDay").val(),
-                        startHourString: $("#BookingStart").val(),
-                        roomID: $("#Room :selected").val()
-                    },
-                    success: function (data) {
-                        console.log($(data));
-                        for (var i = 0; i < data.length; i++) {
-                            var option = document.createElement('option');
-                            $("#BookingEnd").append($(option).attr('value', data[i]).html(data[i]));
-                        }
-                        $("#BookingEnd").prop('disabled', false);
-                    }
-                });
-	        });
-
-	        $("#createBooking").submit(function(e){
-	        	e.preventDefault();
-	        	var  booking = {};
-	        	booking.BookingName = $("input[name=BookingName]").val();
+            $("#createBooking").submit(function (e) {
+                e.preventDefault();
+                var booking = {};
+                booking.BookingName = $("input[name=BookingName]").val();
                 booking.OwnerName = $("input[name=OwnerName]").val();
                 booking.RoomId = $("select[name=Room]").val();
-	        	booking.BookingDay = $("input[name=BookingDay]").val();
-	        	booking.BookingStart = $("select[name=BookingStart]").val();
-	        	booking.BookingEnd = $("select[name=BookingEnd]").val();
-	        	console.log(booking);
+                booking.BookingDay = $("input[name=BookingDay]").val();
+                booking.BookingStart = $("select[name=BookingStart]").val();
+                booking.BookingEnd = $("select[name=BookingEnd]").val();
+                console.log(booking);
                 $.ajax({
                     url: '/Home/Create',
                     type: 'POST',
@@ -128,9 +91,53 @@
                         b: booking
                     }
                 });
-	        });
+            });
 
-		})
+        })
+
+        function SetAvailableEndHourFromDay() {
+            $("#BookingEnd option").remove();
+
+            $.ajax({
+                url: '/Home/GetAvailableEndHourFromDay',
+                type: 'POST',
+                data: {
+                    dayString: $("#BookingDay").val(),
+                    startHourString: $("#BookingStart").val(),
+                    roomID: $("#Room :selected").val()
+                },
+                success: function (data) {
+                    console.log($(data));
+                    for (var i = 0; i < data.length; i++) {
+                        var option = document.createElement('option');
+                        $("#BookingEnd").append($(option).attr('value', data[i]).html(data[i]));
+                    }
+                    $("#BookingEnd").prop('disabled', false);
+                }
+            });
+        }
+        function SetAvailableStartHourFromDay() {
+            $("#BookingStart option").remove();
+            $("#BookingEnd option").remove();
+            $("#BookingEnd").append($(document.createElement('option')).html("Selectionnez une heure de début"));
+            $("#BookingEnd").prop('disabled', true);
+
+            $.ajax({
+                url: '/Home/GetAvailableStartHourFromDay',
+                type: 'POST',
+                data: {
+                    dayString: $("#BookingDay").val(),
+                    roomID: $("#Room :selected").val()
+                },
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var option = document.createElement('option');
+                        $("#BookingStart").append($(option).attr('value', data[i]).html(data[i]));
+                    }
+                    $("#BookingStart").prop('disabled', false);
+                }
+            });
+        }
     </script>
 </body>
 </html>

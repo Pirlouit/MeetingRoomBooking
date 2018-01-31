@@ -21,7 +21,7 @@ namespace MeetingRoomBooking
                 defaults: new { controller = "Bookings", id = RouteParameter.Optional }
             );
 
-            config.Formatters.JsonFormatter.CreateJsonSerializer();
+            //config.Formatters.JsonFormatter.CreateJsonSerializer();
         }
     }
 }

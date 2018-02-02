@@ -139,7 +139,6 @@ namespace MeetingRoomBooking.Controllers
         public List<string> GetAvailableStartHourFromDay(DateTime day,TimeSpan startHour, int roomID)
         {
             List<string> availableHourList = null;
-
             List<Booking> BookingRoomDayList = db.Bookings.Where(b => b.BookingDay == day && b.Room.RoomID == roomID).ToList();
             for (TimeSpan ts = startHour; ts < new TimeSpan(17, 0, 0); ts.Add(new TimeSpan(0, 30, 0)))
             {

@@ -13,7 +13,7 @@
     <link href="~/StyleSheets/style.css" rel="stylesheet" />
 
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"></link>
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
     <script>
         function PrepareDate(date) {
             if ($.datepicker.noWeekends(date)[0]) {
@@ -60,7 +60,6 @@
     <script type="text/javascript">
         $(function () {
 
-
             $("#Room").change(function () {
                 if ($("input[name=BookingDay]").val() !== "")
                     SetAvailableStartHourFromDay();
@@ -75,6 +74,7 @@
             });
 
             $("#createBooking").submit(function (e) {
+                alert("create");
                 e.preventDefault();
                 var booking = {};
                 booking.BookingName = $("input[name=BookingName]").val();
@@ -92,7 +92,6 @@
                     }
                 });
             });
-
         })
 
         function SetAvailableEndHourFromDay() {

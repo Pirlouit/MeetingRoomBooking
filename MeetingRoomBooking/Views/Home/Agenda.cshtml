@@ -37,7 +37,7 @@
             </tr>
 
             @foreach (var item in Model)
-            {
+        {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.BookingDay)
@@ -58,9 +58,10 @@
                     @Html.DisplayFor(modelItem => item.BookingName)
                 </td>
             </tr>
-            }
+    }
 
         </table>
+        @Html.ActionLink("Create Event", "Create", "Home")
     </div>
 </body>
 </html>
